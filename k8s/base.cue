@@ -40,3 +40,24 @@ ingress: #Ingress & {
     }]
   }]
 }
+
+hpa: #HPA & {
+  metadata: name: "hello-server"
+  spec: {
+    scaleTargetRef: {
+      apiVersion: "apps/v1"
+      kind: "Deployment"
+      name: "hello-server"
+    }
+    metrics: [{
+      type: "Resource"
+      resource: {
+        name: "cpu"
+        target: {
+          type: "Utilization"
+          averageUtilization: 50
+        }
+      }
+    }]
+  }
+}

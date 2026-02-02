@@ -23,6 +23,10 @@ gen/dev/service:
 gen/dev/ingress:
 	@cue export ./... -t dev -e ingress --out yaml
 
+.PHONY: gen/dev/hpa
+gen/dev/hpa:
+	@cue export ./... -t dev -e hpa --out yaml
+
 # Production
 .PHONY: gen/prod/deployment
 gen/prod/deployment:
@@ -35,6 +39,10 @@ gen/prod/service:
 .PHONY: gen/prod/ingress
 gen/prod/ingress:
 	@cue export ./... -t prod -e ingress --out yaml
+
+.PHONY: gen/prod/hpa
+gen/prod/hpa:
+	@cue export ./... -t prod -e hpa --out yaml
 
 # Hosts
 .PHONY: hosts/dev
