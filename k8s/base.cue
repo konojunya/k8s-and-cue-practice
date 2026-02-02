@@ -13,6 +13,7 @@ deployment: #Deployment & {
 					name:  "hello-server"
 					image: "hello-server:latest"
 					ports: [{containerPort: 8080}]
+					resources: requests: cpu: "1m"
 				},
 			]
 		}
@@ -28,36 +29,36 @@ service: #Service & {
 }
 
 ingress: #Ingress & {
-  metadata: name: "hello-server"
-  spec: rules: [{
-    http: paths: [{
-      path: "/"
-      pathType: "Prefix"
-      backend: service: {
-        name: "hello-server"
-        port: number: 80
-      }
-    }]
-  }]
+	metadata: name: "hello-server"
+	spec: rules: [{
+		http: paths: [{
+			path:     "/"
+			pathType: "Prefix"
+			backend: service: {
+				name: "hello-server"
+				port: number: 80
+			}
+		}]
+	}]
 }
 
 hpa: #HPA & {
-  metadata: name: "hello-server"
-  spec: {
-    scaleTargetRef: {
-      apiVersion: "apps/v1"
-      kind: "Deployment"
-      name: "hello-server"
-    }
-    metrics: [{
-      type: "Resource"
-      resource: {
-        name: "cpu"
-        target: {
-          type: "Utilization"
-          averageUtilization: 50
-        }
-      }
-    }]
-  }
+	metadata: name: "hello-server"
+	spec: {
+		scaleTargetRef: {
+			apiVersion: "apps/v1"
+			kind:       "Deployment"
+			name:       "hello-server"
+		}
+		metrics: [{
+			type: "Resource"
+			resource: {
+				name: "cpu"
+				target: {
+					type:               "Utilization"
+					averageUtilization: 50
+				}
+			}
+		}]
+	}
 }

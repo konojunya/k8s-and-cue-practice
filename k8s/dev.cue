@@ -11,6 +11,6 @@ service: spec: type: "NodePort"
 ingress: spec: rules: [{host: "hello.local"}]
 
 hpa: spec: {
-  minReplicas: 1
-  maxReplicas: 3
+	minReplicas: 1
+	maxReplicas: 3
 }

@@ -29,6 +29,10 @@ package hello
 	image: string
 	ports?: [...#ContainerPort]
 	imagePullPolicy?: "Always" | "Never" | "IfNotPresent"
+	resources?: {
+		requests?: {cpu?: string, memory?: string}
+		limits?: {cpu?: string, memory?: string}
+	}
 }
 
 #ContainerPort: {
@@ -53,56 +57,56 @@ package hello
 }
 
 #Ingress: {
-  apiVersion: "networking.k8s.io/v1"
-  kind: "Ingress"
-  metadata: #Metadata
-  spec: #IngressSpec
+	apiVersion: "networking.k8s.io/v1"
+	kind:       "Ingress"
+	metadata:   #Metadata
+	spec:       #IngressSpec
 }
 
 #IngressSpec: {
-  rules: [...#IngressRule]
+	rules: [...#IngressRule]
 }
 
 #IngressRule: {
-  host: string
-  http: paths: [...#HTTPPath]
+	host: string
+	http: paths: [...#HTTPPath]
 }
 
 #HTTPPath: {
-  path: string
-  pathType: "Prefix" | "Exact" | "ImplementationSpecific"
-  backend: service: {
-    name: string
-    port: number: int & >0 & <=65535
-  }
+	path:     string
+	pathType: "Prefix" | "Exact" | "ImplementationSpecific"
+	backend: service: {
+		name: string
+		port: number: int & >0 & <=65535
+	}
 }
 
 #HPA: {
-  apiVersion: "autoscaling/v2"
-  kind: "HorizontalPodAutoscaler"
-  metadata: #Metadata
-  spec: #HPAConfig
+	apiVersion: "autoscaling/v2"
+	kind:       "HorizontalPodAutoscaler"
+	metadata:   #Metadata
+	spec:       #HPAConfig
 }
 
 #HPAConfig: {
-  scaleTargetRef: {
-    apiVersion: string
-    kind: string
-    name: string
-  }
-  minReplicas?: int & >=1
-  maxReplicas: int & >=1
-  metrics: [...#HPAMetric]
+	scaleTargetRef: {
+		apiVersion: string
+		kind:       string
+		name:       string
+	}
+	minReplicas?: int & >=1
+	maxReplicas:  int & >=1
+	metrics: [...#HPAMetric]
 }
 
 #HPAMetric: {
-  type: "Resource" | "Pods" | "Object" | "External"
-  resource?: {
-    name: "cpu" | "memory"
-    target: {
-      type: "Utilization" | "AverageValue" | "AverageUtilization"
-      averageUtilization?: int & >=1 & <=100
-      averageValue?: string
-    }
-  }
+	type: "Resource" | "Pods" | "Object" | "External"
+	resource?: {
+		name: "cpu" | "memory"
+		target: {
+			type:                "Utilization" | "AverageValue" | "AverageUtilization"
+			averageUtilization?: int & >=1 & <=100
+			averageValue?:       string
+		}
+	}
 }

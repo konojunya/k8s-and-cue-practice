@@ -11,6 +11,6 @@ service: spec: type: "LoadBalancer"
 ingress: spec: rules: [{host: "hello.example.com"}]
 
 hpa: spec: {
-  minReplicas: 2
-  maxReplicas: 5
+	minReplicas: 2
+	maxReplicas: 5
 }
