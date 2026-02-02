@@ -51,3 +51,28 @@ package hello
 	targetPort?: int & >0 & <=65535
 	nodePort?:   int & >0 & <=65535
 }
+
+#Ingress: {
+  apiVersion: "networking.k8s.io/v1"
+  kind: "Ingress"
+  metadata: #Metadata
+  spec: #IngressSpec
+}
+
+#IngressSpec: {
+  rules: [...#IngressRule]
+}
+
+#IngressRule: {
+  host: string
+  http: paths: [...#HTTPPath]
+}
+
+#HTTPPath: {
+  path: string
+  pathType: "Prefix" | "Exact" | "ImplementationSpecific"
+  backend: service: {
+    name: string
+    port: number: int & >0 & <=65535
+  }
+}
