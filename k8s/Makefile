@@ -11,6 +11,17 @@ format:
 	@cue fmt ./...
 
 # Development
+.PHONY: gen/dev
+gen/dev:
+	@rm -rf .hydrated/dev/*
+	@make gen/dev/deployment > .hydrated/dev/manifest.yaml
+	@echo "---" >> .hydrated/dev/manifest.yaml
+	@make gen/dev/service >> .hydrated/dev/manifest.yaml
+	@echo "---" >> .hydrated/dev/manifest.yaml
+	@make gen/dev/ingress >> .hydrated/dev/manifest.yaml
+	@echo "---" >> .hydrated/dev/manifest.yaml
+	@make gen/dev/hpa >> .hydrated/dev/manifest.yaml
+
 .PHONY: gen/dev/deployment
 gen/dev/deployment:
 	@cue export ./... -t dev -e deployment --out yaml
@@ -28,6 +39,17 @@ gen/dev/hpa:
 	@cue export ./... -t dev -e hpa --out yaml
 
 # Production
+.PHONY: gen/prod
+gen/prod:
+	@rm -rf .hydrated/prod/*
+	@make gen/prod/deployment > .hydrated/prod/manifest.yaml
+	@echo "---" >> .hydrated/prod/manifest.yaml
+	@make gen/prod/service >> .hydrated/prod/manifest.yaml
+	@echo "---" >> .hydrated/prod/manifest.yaml
+	@make gen/prod/ingress >> .hydrated/prod/manifest.yaml
+	@echo "---" >> .hydrated/prod/manifest.yaml
+	@make gen/prod/hpa >> .hydrated/prod/manifest.yaml
+
 .PHONY: gen/prod/deployment
 gen/prod/deployment:
 	@cue export ./... -t prod -e deployment --out yaml
