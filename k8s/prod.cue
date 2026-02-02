@@ -7,3 +7,5 @@ deployment: spec: {
 }
 
 service: spec: type: "LoadBalancer"
+
+ingress: spec: rules: [{host: "hello.example.com"}]

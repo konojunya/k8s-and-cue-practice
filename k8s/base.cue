@@ -26,3 +26,17 @@ service: #Service & {
 		selector: app: "hello-server"
 	}
 }
+
+ingress: #Ingress & {
+  metadata: name: "hello-server"
+  spec: rules: [{
+    http: paths: [{
+      path: "/"
+      pathType: "Prefix"
+      backend: service: {
+        name: "hello-server"
+        port: number: 80
+      }
+    }]
+  }]
+}

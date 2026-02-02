@@ -7,3 +7,5 @@ deployment: spec: {
 }
 
 service: spec: type: "NodePort"
+
+ingress: spec: rules: [{host: "hello.local"}]
