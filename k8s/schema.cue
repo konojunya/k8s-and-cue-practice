@@ -1,0 +1,53 @@
+package hello
+
+#Deployment: {
+	apiVersion: "apps/v1"
+	kind:       "Deployment"
+	metadata:   #Metadata
+	spec:       #DeploymentSpec
+}
+
+#Metadata: {
+	name:       string & =~"^[a-z][a-z0-9-]*$"
+	namespace?: string
+	labels?:    #Labels
+}
+
+#Labels: [string]: string
+
+#DeploymentSpec: {
+	replicas: int & >0 & <=10
+	selector: matchLabels: #Labels
+	template: {
+		metadata: labels: #Labels
+		spec: containers: [...#Container]
+	}
+}
+
+#Container: {
+	name:  string
+	image: string
+	ports?: [...#ContainerPort]
+	imagePullPolicy?: "Always" | "Never" | "IfNotPresent"
+}
+
+#ContainerPort: {
+	containerPort: int & >0 & <=65535
+}
+
+#Service: {
+	apiVersion: "v1"
+	kind:       "Service"
+	metadata:   #Metadata
+	spec: {
+		type: "NodePort" | "LoadBalancer" | "ClusterIP"
+		ports: [...#ServicePort]
+		selector: #Labels
+	}
+}
+
+#ServicePort: {
+	port:        int & >0 & <=65535
+	targetPort?: int & >0 & <=65535
+	nodePort?:   int & >0 & <=65535
+}
